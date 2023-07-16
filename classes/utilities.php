@@ -110,6 +110,7 @@ class pl_ar_Utilities  {
       delete_option('pl_ar_current_scale');
       delete_option('pl_ar_current_rotation');
       delete_option("plugin_ar_version");
+      delete_option("pl_ar_current_type");
     }
 
     //update current options for plugin
@@ -118,6 +119,7 @@ class pl_ar_Utilities  {
       update_option( 'pl_ar_current_id', sanitize_text_field($_POST['selector'] ));
       update_option( 'pl_ar_current_scale', sanitize_text_field($_POST['scale'] ));
       update_option( 'pl_ar_current_rotation', sanitize_text_field($_POST['rotation'] ));
+      update_option( 'pl_ar_current_type', sanitize_text_field($_POST['type'] ));
       //respond with ar page link
       $ar_page_link=get_permalink( get_page_by_title( 'AR_page' ) );
       echo $ar_page_link;

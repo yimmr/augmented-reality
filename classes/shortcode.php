@@ -44,6 +44,7 @@ class pl_ar_Shortcode  {
 	  $button_name = sanitize_text_field($_POST['button_name']);
 	  $button_back_color = sanitize_text_field($_POST['button_back_color']);
 	  $button_text_color = sanitize_text_field($_POST['button_text_color']);
+	  $type = sanitize_text_field($_POST['type']);
 
     $Jobjects = json_encode($objects);//need that because of the backslash\escape char
     $Jmarkers = json_encode($markers);
@@ -57,7 +58,7 @@ class pl_ar_Shortcode  {
 		    'objects' => $objects , 
 		    'markers' => $markers ,
 		    'shortcode_id' => $rand_shortcode,
-		    'shortcode_text' => '[ar-plugin id="'.$rand_shortcode.'" name="'.$button_name.'" color="'.$button_back_color.'" text-color="'.$button_text_color.'"]',
+		    'shortcode_text' => '[ar-plugin id="'.$rand_shortcode.'" type="'.$type.'" name="'.$button_name.'" color="'.$button_back_color.'" text-color="'.$button_text_color.'"]',
 		    'buttonName' => $button_name,
 		    'buttonBackGroundColor' => $button_back_color,
 		    'buttonTextColor' => $button_text_color
@@ -90,11 +91,20 @@ class pl_ar_Shortcode  {
     <div id="pl_ar_panel">
     	<h2 class="pl_ar_head_title">Ar plugin editor</h2>
 	    <div id="pl_ar_main_box">
-		    <div class="pl_ar_object_box">
+		    <div class="pl_ar_object_box" style="height: auto;">
 		    	  <input type="text" class="pl_ar_object_path_class" id="pl_ar_object_path" placeholder="Object path"  disabled/>
 		        <label class="pl_ar_button" id="pl_ar_insert_object" >Insert Object (gltf or image)</label>
 					  <input type="text" class="pl_ar_marker_path_class" id="pl_ar_marker_path" placeholder="Marker path"  disabled/>
 					  <label class="pl_ar_button" id="pl_ar_insert_marker" >Insert Marker (patt)</label>
+				
+				<div class="pl_ar_object_path_class" style="margin: 30px;">
+					<select id="pl_ar_type">
+						<option value="marker">Marker</option>
+						<option value="image">Image</option>
+						<option value="lacation">Location</option>
+					</select>
+					<label class="pl_ar_button" id="pl_ar_insert_marker" >AR Type</label>
+				</div>
 		    </div>
 		  </div>  
 		  <div>
@@ -124,7 +134,8 @@ class pl_ar_Shortcode  {
 	      'text-color'=> '',
 	      'scale'=> '',
 	      'rotation'=> '',
-	      'option'=> ''
+	      'option'=> '',
+		  'type'=>'',
 	    ), $atts
 	  );
 
@@ -156,7 +167,10 @@ class pl_ar_Shortcode  {
     	$ButtColor=$atts['color'];
     }
 
-	  return '<input type="button" class="ar_button" style="color:'.$ButtTextColor.'; background-color:'.$ButtColor.';" id="'.$atts['id'].'" value="'.$atts['name'].'" data-scale="'.$autoscale.'" data-rotation="'.$rotation.'" />';
+	$type = $atts['type'] ?? null ?: 'marker';
+
+	return '<input type="button" class="ar_button" style="color:'.$ButtTextColor.'; background-color:'.$ButtColor.';" id="'.$atts['id'].'" value="'.$atts['name'].'"
+	   data-scale="'.$autoscale.'" data-rotation="'.$rotation.'" data-type="'.$type.'"/>';
   }
 
 } 

@@ -196,6 +196,7 @@
           	      var pl_ar_button_name = document.getElementById("ar_name_input").value;
           	      var b_background_color=document.getElementById("ar_back_color").value;
           	      var b_text_color=document.getElementById("ar_text_color").value;
+				  var type = document.getElementById("pl_ar_type").value;
           	      /* send an ajax request */
 						      var data = {
 							      'action': 'pl_ar_query',
@@ -204,7 +205,8 @@
 							      'button_name': pl_ar_button_name,
 							      'button_back_color': b_background_color,
 							      'button_text_color': b_text_color,
-							      'security': pl_ar_ajax_admin_params.pl_ar_nonce
+							      'security': pl_ar_ajax_admin_params.pl_ar_nonce,
+								  'type': type
 								  };
 
 							    $.post( pl_ar_ajax_admin_params.ajaxurl, data, function( data ) {
@@ -213,7 +215,7 @@
 							    	}
 							    	else{
 							    		//show shortcode
-							    		$('.pl_ar_txt').contents().first()[0].textContent = 'Your shortcode is: [ar-plugin id="'+ JSON.parse(data.replace(/\\/g,''))+'"'+' name="'+pl_ar_button_name+'" color="'+b_background_color+'" text-color="'+b_text_color+'"]';
+							    		$('.pl_ar_txt').contents().first()[0].textContent = 'Your shortcode is: [ar-plugin id="'+ JSON.parse(data.replace(/\\/g,''))+'"'+' type="'+type+'" name="'+pl_ar_button_name+'" color="'+b_background_color+'" text-color="'+b_text_color+'"]';
 							    		//show the shortcode text box
 						    			$('.pl_ar_shortcode_box').css('opacity','1.0');
 							    	} 
