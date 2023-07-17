@@ -103,7 +103,7 @@ class pl_ar_Shortcode  {
 						<option value="image">Image</option>
 						<option value="lacation">Location</option>
 					</select>
-					<label class="pl_ar_button" id="pl_ar_insert_marker" >AR Type</label>
+					<label class="pl_ar_button">AR Type</label>
 				</div>
 		    </div>
 		  </div>  

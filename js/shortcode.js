@@ -193,10 +193,11 @@
           	      	alert('please fill button name');
           	      	return;
           	      }
-          	      var pl_ar_button_name = document.getElementById("ar_name_input").value;
-          	      var b_background_color=document.getElementById("ar_back_color").value;
-          	      var b_text_color=document.getElementById("ar_text_color").value;
+          	      var pl_ar_button_name = jQuery(this).find("#ar_name_input").val();
+          	      var b_background_color=jQuery(this).find("#ar_back_color").val();
+          	      var b_text_color=jQuery(this).find("#ar_text_color").val();
 				  var type = document.getElementById("pl_ar_type").value;
+	 
           	      /* send an ajax request */
 						      var data = {
 							      'action': 'pl_ar_query',

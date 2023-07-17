@@ -12,14 +12,6 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-add_action('template_redirect', function () {
-    if (isset($_GET['art'])) {
-        $arType = $_GET['art'] ?: 1;
-        require_once 'a.php';
-        exit;
-    }
-});
-
 define('PL_AR_PATH', plugin_dir_path(__FILE__));
 define('PL_AR_LINK', plugin_dir_url(__FILE__));
 // include_once PL_AR_PATH . 'classes/new_page.php';
