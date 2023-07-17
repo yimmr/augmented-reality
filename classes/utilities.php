@@ -111,6 +111,7 @@ class pl_ar_Utilities  {
       delete_option('pl_ar_current_rotation');
       delete_option("plugin_ar_version");
       delete_option("pl_ar_current_type");
+      delete_option("pl_ar_current_gps_location");
     }
 
     //update current options for plugin
@@ -120,6 +121,11 @@ class pl_ar_Utilities  {
       update_option( 'pl_ar_current_scale', sanitize_text_field($_POST['scale'] ));
       update_option( 'pl_ar_current_rotation', sanitize_text_field($_POST['rotation'] ));
       update_option( 'pl_ar_current_type', sanitize_text_field($_POST['type'] ));
+      update_option('pl_ar_current_gps_location', [
+          'lang' => sanitize_text_field($_POST['type']),
+          'long' => sanitize_text_field($_POST['long']),
+      ]);
+
       //respond with ar page link
       $ar_page_link=get_permalink( get_page_by_title( 'AR_page' ) );
       echo $ar_page_link;

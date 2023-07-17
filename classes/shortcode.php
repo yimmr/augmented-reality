@@ -168,9 +168,16 @@ class pl_ar_Shortcode  {
     }
 
 	$type = $atts['type'] ?? null ?: 'marker';
+	$location = '';
+
+	foreach (['lang', 'long'] as $key) {
+		if (!empty($atts[$key])) {
+			$location .= ' data-'.$key.'="'.$atts[$key].'"';
+		}
+	}
 
 	return '<input type="button" class="ar_button" style="color:'.$ButtTextColor.'; background-color:'.$ButtColor.';" id="'.$atts['id'].'" value="'.$atts['name'].'"
-	   data-scale="'.$autoscale.'" data-rotation="'.$rotation.'" data-type="'.$type.'"/>';
+	   data-scale="'.$autoscale.'" data-rotation="'.$rotation.'" data-type="'.$type.'" '.$location.'/>';
   }
 
 } 
