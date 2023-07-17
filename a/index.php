@@ -81,7 +81,7 @@ $html_object = json_decode(str_replace("'", '"', $html_object), true);
     <a-nft type='nft'
            url='https://ar-js-org.github.io/.github/profile/aframe/examples/image-tracking/nft/trex/trex-image/trex'
            smooth='true' smoothCount='10' smoothTolerance='0.01' smoothThreshold='5'>
-      <a-entity gltf-model='<?php echo $html_object[0]; ?>'
+      <a-entity gltf-model='<?php echo PL_AR_LINK.$$html_object[0]; ?>'
                 scale="5 5 5" position="150 300 -100">
       </a-entity>
     </a-nft>
