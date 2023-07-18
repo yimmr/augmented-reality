@@ -101,7 +101,7 @@ class pl_ar_Shortcode  {
 					<select id="pl_ar_type">
 						<option value="marker">Marker</option>
 						<option value="image">Image</option>
-						<option value="lacation">Location</option>
+						<option value="location">Location</option>
 					</select>
 					<label class="pl_ar_button">AR Type</label>
 				</div>
@@ -153,7 +153,7 @@ class pl_ar_Shortcode  {
 		  'rotation' => '0 0 0',
 		  'position' => '0 0 0',
 	  ] as $key => $value) {
-		  if (isset($data[$key]) && '' == $data[$key]) {
+		  if (!isset($data[$key]) || '' == $data[$key]) {
 			  $data[$key] = $value;
 		  }
 	  }

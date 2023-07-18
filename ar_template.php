@@ -8,6 +8,10 @@ $arPage = new ARPage;
 $pageData = $arPage->getPageCurrentData();
 $type = $pageData['type'];
 
+if (empty($type)) {
+    wp_die('Server Error');
+}
+
 add_action('wp_ajax_pl_ar_new_page', 'pl_ar_new_page');
 add_action('wp_ajax_nopriv_pl_ar_new_page', 'pl_ar_new_page');
 
