@@ -62,10 +62,6 @@ $makerIdxs = array_keys($html_marker);
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Document</title>
     <?php // wp_head();?>
-    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1.3.0/dist/aframe-master.min.js"></script>
-    <script
-            src="<?php echo PL_AR_LINK.'js/aframe-ar-nft.js'; ?>">
-    </script>
 </head>
 
 <body style='margin : 0px; overflow: hidden;'>
