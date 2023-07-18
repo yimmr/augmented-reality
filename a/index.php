@@ -81,7 +81,7 @@ $html_object = json_decode(str_replace("'", '"', $html_object), true);
     <a-nft type='nft'
            url='<?php echo PL_AR_LINK; ?>examples/image-tracking/nft/trex/trex-image/trex'
            smooth='true' smoothCount='10' smoothTolerance='0.01' smoothThreshold='5'>
-      <a-entity gltf-model='<?php echo PL_AR_LINK; ?>examples/image-tracking/nft/trex/scene.gltf'
+      <a-entity gltf-model='<?php echo PL_AR_LINK; ?>file_manager/objects/nes_controller/scene.gltf'
                 scale="5 5 5" position="150 300 -100">
       </a-entity>
     </a-nft>
