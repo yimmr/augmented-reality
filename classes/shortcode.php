@@ -149,7 +149,7 @@ class pl_ar_Shortcode  {
 	  unset($data['id'], $data['name'],$data['text-color'],$data['color']);
 
 	  foreach ([
-		  'scale'    => 2,
+		  'scale'    => '0.05 0.05 0.05',
 		  'rotation' => '0 0 0',
 		  'position' => '0 0 0',
 	  ] as $key => $value) {
