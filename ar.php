@@ -4,7 +4,7 @@ $autoscale = get_option('pl_ar_current_scale');
 $rotation = get_option('pl_ar_current_rotation');
 $type = get_option('pl_ar_current_type');
 $gpsLocation = get_option('pl_ar_current_gps_location');
-$autoscale = '"0.05 0.05 0.05"';
+$autoscale = '0.05 0.05 0.05';
 $lang = $gpsLocation['lang'] ?? 0;
 $long = $gpsLocation['long'] ?? 0;
 
