@@ -40,14 +40,6 @@ class ARPage
         $markers = $this->parseJSONColumn($rawData, 'markers');
         $objects = $this->parseJSONColumn($rawData, 'objects');
 
-        if (isset($_GET['art'])) {
-            $markers = ['examples/image-tracking/nft/trex/trex-image/trex'];
-            $objects = ['examples/image-tracking/nft/trex/scene.gltf'];
-            $attrs['type'] = 1 == $_GET['art'] ? 'image' : (2 == $_GET['art'] ? 'location' : 'marker');
-            if ('location' == $attrs['type']) {
-                $attrs['latlong'] = $attrs['slatlong'] = '-0.723,51.049';
-            }
-        }
         // 提取公共属性
         foreach (['type', 'slatlong'] as $key) {
             if (isset($attrs[$key])) {
@@ -100,7 +92,7 @@ class ARPage
 
         if (isset($attrs['latlong'])) {
             $latlong = $this->parseLatLong($attrs['latlong']);
-            $attrs['gps-entity-place'] = "longitude: {$latlong[0]}; latitude: {$latlong[1]};";
+            $attrs['gps-entity-place'] = "longitude: {$latlong[1]}; latitude: {$latlong[0]};";
             unset($attrs['latlong']);
         }
 
