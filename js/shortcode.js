@@ -129,7 +129,8 @@
           return true;
 				}
 				else{
-					pl_ar_objects_array.push($(this).attr("placeholder"));
+					var _objarritem=$(this).attr("placeholder")
+					if (_objarritem) pl_ar_objects_array.push(_objarritem);
 				}
         
       });

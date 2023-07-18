@@ -1,19 +1,15 @@
 <?php
 
-/* Template Name: ar_template */
-
 use MyWPAR\ARPage;
 
 require_once __DIR__.'/ARPage.php';
 
+$arPage = new ARPage;
+$pageData = $arPage->getPageCurrentData();
+$type = $pageData['type'];
+
 add_action('wp_ajax_pl_ar_new_page', 'pl_ar_new_page');
 add_action('wp_ajax_nopriv_pl_ar_new_page', 'pl_ar_new_page');
-
-$arPage = new ARPage;
-$pageData = $arPage->getPageData(get_option('pl_ar_current_id'));
-
-$lang = $gpsLocation['lang'] ?? 0;
-$long = $gpsLocation['long'] ?? 0;
 
 add_action('wp_enqueue_scripts', function () use ($type) {
     \wp_dequeue_script('aframe-ar');
@@ -35,22 +31,18 @@ add_action('wp_enqueue_scripts', function () use ($type) {
     }
 });
 
-global $wpdb;
-// check if id exists in table
-$count = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}pl_ar_table WHERE shortcode_id={$id_selector}");
-if (0 == $count) {
-    wp_die($message = 'No item with id:'.$id_selector.' exists');
-}
-// prepare the markers
-$html_marker = json_encode($wpdb->get_results("SELECT markers FROM {$wpdb->prefix}pl_ar_table WHERE shortcode_id={$id_selector}"));
-$html_marker = json_decode($html_marker, $assoc_array = true);
-$html_marker = stripcslashes($html_marker[0]['markers']);
-$html_marker = json_decode(str_replace("'", '"', $html_marker), true);
+?>
+<!DOCTYPE html>
+<html lang="en">
 
-// prepare the objects
-$html_object = json_encode($wpdb->get_results("SELECT objects FROM {$wpdb->prefix}pl_ar_table WHERE shortcode_id={$id_selector}"));
-$html_object = json_decode($html_object, $assoc_array = true);
-$html_object = stripcslashes($html_object[0]['objects']);
-$html_object = json_decode(str_replace("'", '"', $html_object), true);
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <?php wp_head(); ?>
+</head>
 
-$makerIdxs = array_keys($html_marker);
+<body style='margin : 0px; overflow: hidden;'>
+    <?php require_once 'views/'.$type.'.php'; ?>
+</body>
+
+</html>

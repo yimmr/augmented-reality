@@ -109,22 +109,27 @@ class pl_ar_Utilities  {
       delete_option('pl_ar_current_id');
       delete_option('pl_ar_current_scale');
       delete_option('pl_ar_current_rotation');
-      delete_option("plugin_ar_version");
-      delete_option("pl_ar_current_type");
-      delete_option("pl_ar_current_gps_location");
+      delete_option("plugin_ar_version"); 
+      delete_option("pl_ar_current_options");
     }
 
     //update current options for plugin
     public function pl_ar_current_option(){
       check_ajax_referer( 'pl_ar_ajax_nonce', 'security' );
       update_option( 'pl_ar_current_id', sanitize_text_field($_POST['selector'] ));
-      update_option( 'pl_ar_current_scale', sanitize_text_field($_POST['scale'] ));
-      update_option( 'pl_ar_current_rotation', sanitize_text_field($_POST['rotation'] ));
-      update_option( 'pl_ar_current_type', sanitize_text_field($_POST['type'] ));
-      update_option('pl_ar_current_gps_location', [
-          'lang' => sanitize_text_field($_POST['type']),
-          'long' => sanitize_text_field($_POST['long']),
-      ]);
+      // update_option( 'pl_ar_current_scale', sanitize_text_field($_POST['scale'] ));
+      // update_option( 'pl_ar_current_rotation', sanitize_text_field($_POST['rotation'] ));
+
+      if(isset($_POST['options']) && is_array($_POST['options'])){
+        $options = [];
+
+        foreach ($_POST['options'] as $key => $value) {
+           $key = sanitize_text_field($key);
+           $options[$key] = sanitize_text_field($value);
+        }
+
+        update_option( 'pl_ar_current_options', $options);
+      }
 
       //respond with ar page link
       $ar_page_link=get_permalink( get_page_by_title( 'AR_page' ) );

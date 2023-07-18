@@ -10,11 +10,7 @@
 	      'action': 'pl_ar_current_option',
 	      'security': pl_ar_ajax_params.pl_ar_nonce,
 	      'selector':event.target.id,
-	      'scale': $(this).attr('data-scale'),
-	      'rotation': $(this).attr('data-rotation'),
-		  'type': $(this).attr('data-type'),
-		  'lang': $(this).attr('data-lang'),
-		  'long': $(this).attr('data-long'),
+		  'options': $(this).data(),
 		  };
 		  
 		  jQuery.post(pl_ar_ajax_params.ajaxurl, data, function(response) {

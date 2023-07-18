@@ -4,6 +4,8 @@ namespace MyWPAR;
 
 class ARPage
 {
+    protected $preload = [];
+
     public function buildObjectHTML($data)
     {
         $type = $data['type'];
@@ -23,16 +25,9 @@ class ARPage
     {
         global $wpdb;
 
-        $data = [];
+        $data = ['items' => []];
         $sortcodeId = \get_option('pl_ar_current_id');
         $attrs = (array) \get_option('pl_ar_current_options', []);
-
-        foreach (['type', 'slon', 'slat'] as $key) {
-            if (isset($attrs[$key])) {
-                $data[$key] = $attrs[$key];
-                unset($attrs[$key]);
-            }
-        }
 
         $table = $wpdb->prefix.'pl_ar_table';
         $count = $wpdb->get_var("SELECT COUNT(*) FROM {$table} WHERE shortcode_id={$sortcodeId}");
@@ -44,66 +39,72 @@ class ARPage
         $rawData = $wpdb->get_row("SELECT markers,objects FROM {$table} WHERE shortcode_id={$sortcodeId}");
         $markers = $this->parseJSONColumn($rawData, 'markers');
         $objects = $this->parseJSONColumn($rawData, 'objects');
-        $items = [];
-        $preload = [];
 
-        $markers = ['examples/image-tracking/nft/trex/trex-image/trex'];
-        $objects = ['examples/image-tracking/nft/trex/scene.gltf'];
-        $data['type'] = 1 == $_GET['art'] ? 'image' : (2 == $_GET['art'] ? 'location' : 'marker');
-        $attrs['lat'] = $data['slat'] = 51.049;
-        $attrs['lon'] = $data['slon'] = -0.723;
-
-        if ('location' === $data['type']) {
-            $lat = $attrs['lat'] ?? 0;
-            $lon = $attrs['lon'] ?? 0;
-            $attrs['look-at'] = $attrs['look-at'] ?? '[gps-camera]';
-            $attrs['gps-entity-place'] = "latitude: {$lat}; longitude: {$lon};";
-        }
-
-        foreach ($markers as $key => $value) {
-            $object = $objects[$key];
-            $objectURL = \PL_AR_LINK.$object;
-            $ext = pathinfo($object, PATHINFO_EXTENSION);
-
-            if ('gltf' == $ext) {
-                $srcId = "animated-asset{$key}";
-                $preload[$srcId] = $objectURL;
+        // 提取公共属性
+        foreach (['type', 'slonlat'] as $key) {
+            if (isset($attrs[$key])) {
+                $data[$key] = 'slonlat' === $key ? $this->parseLonLat($attrs[$key]) : $attrs[$key];
+                unset($attrs[$key]);
             }
-
-            $item = array_merge($this->parseObjectAttrs($objectURL, $srcId), $attrs);
-            $item['marker_url'] = \PL_AR_LINK.$value;
-            $items[] = $item;
         }
 
-        $data['items'] = $items;
-        $data['preload'] = $preload;
+        // 构建项目数据
+        foreach ($markers as $key => $value) {
+            if ($value && !empty($objects[$key])) {
+                $data['items'][] = $this->makeItemData($objects[$key], $value, $attrs, $data['type']);
+            }
+        }
 
-        // dump($data);
+        $data['preload'] = $this->preload;
 
-        return $data;
+        return \apply_filters('pl_wpar_page_current_data', $data);
     }
 
-    protected function parseObjectAttrs($src, $id)
+    protected function makeItemData($objectURL, $makerURL, $attrs = [], $type = '')
     {
-        $ext = pathinfo($src, PATHINFO_EXTENSION);
+        $ext = pathinfo($objectURL, PATHINFO_EXTENSION);
+        $objectURL = \PL_AR_LINK.$objectURL;
+
+        if ('gltf' == $ext) {
+            $srcId = 'animated-asset-'.(count($this->preload) + 1);
+            $this->preload[$srcId] = $objectURL;
+        }
 
         switch ($ext) {
             case 'jpg':
             case 'png':
-                return ['type' => 'image', 'src' => $src];
+                $object = ['type' => 'image', 'src' => $objectURL];
+                if (isset($attrs['scale'])) {
+                    $object['autoscale'] = $attrs['scale'];
+                    unset($attrs['scale']);
+                }
                 break;
             case 'gltf':
-                return [
+                $object = [
                     'type'            => 'entity',
                     'animation-mixer' => true,
-                    'gltf-model'      => '#'.$id,
+                    'gltf-model'      => '#'.$srcId,
                     'position'        => '0 0 0',
                 ];
                 break;
             default:break;
         }
 
-        return [];
+        if (isset($attrs['lonlat'])) {
+            $lonlat = $this->parseLonLat($attrs['lonlat']);
+            $attrs['gps-entity-place'] = "longitude: {$lonlat[0]}; latitude: {$lonlat[1]};";
+            unset($attrs['lonlat']);
+        }
+
+        $object = array_merge($object, $attrs);
+        $marker = ['url' => \PL_AR_LINK.$makerURL, 'type' => 'pattern'];
+
+        return compact('marker', 'object');
+    }
+
+    protected function parseLonLat($string)
+    {
+        return explode(',', $string) + [0, 0];
     }
 
     public function parseJSONColumn(&$data, $column, $default = [])

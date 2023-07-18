@@ -125,59 +125,49 @@ class pl_ar_Shortcode  {
     <?php
   }
 
-    public function custom_button_shortcode( $atts ) { 
-	  shortcode_atts( 
-	    array(
-	    	'id'=>'',
-	      'name'=> '',
-	      'color'=> '',
-	      'text-color'=> '',
-	      'scale'=> '',
-	      'rotation'=> '',
-	      'option'=> '',
-		  'type'=>'',
-	    ), $atts
+  public function custom_button_shortcode($atts)
+  {
+	  shortcode_atts(
+		  [
+			  'id'         => '',
+			  'name'       => '',
+			  'color'      => '',
+			  'text-color' => '',
+			  'scale'      => '',
+			  'rotation'   => '',
+			  'option'     => '',
+			  'type'       => 'marker',
+		  ],
+		  $atts
 	  );
 
-    if($atts['scale']==''){
-    	$autoscale='2';
-    }
-    else{
-    	$autoscale=$atts['scale'];
-    }
+	  $ButtTextColor = '' == $atts['text-color'] ? '#FFFFFF' : $atts['text-color'];
+	  $ButtColor = '' == $atts['color'] ? '#034f85' : $atts['color'];
+	  $style = "color:{$ButtTextColor}; background-color: {$ButtColor}";
 
-    if($atts['rotation']==''){
-    	$rotation='0 0 0';
-    }
-    else{
-    	$rotation=$atts['rotation'];
-    }
+	  $data = $atts; 
+	  unset($data['id'], $data['name'],$data['text-color'],$data['color']);
 
-    if($atts['text-color']==''){
-    	$ButtTextColor='#FFFFFF';
-    }
-    else{
-    	$ButtTextColor=$atts['text-color'];
-    }
+	  foreach ([
+		  'scale'    => 2,
+		  'rotation' => '0 0 0',
+		  'position' => '0 0 0',
+	  ] as $key => $value) {
+		  if (isset($data[$key]) && '' == $data[$key]) {
+			  $data[$key] = $value;
+		  }
+	  }
 
-    if($atts['color']==''){
-    	$ButtColor='#034f85';
-    }
-    else{
-    	$ButtColor=$atts['color'];
-    }
+	  if ('location' == $data['type']) {
+		  $data['look-at'] = $data['look-at'] ?? '[gps-camera]';
+	  }
 
-	$type = $atts['type'] ?? null ?: 'marker';
-	$location = '';
+	 
+	  $dataStr = '';
+	  foreach ($data as $key => $value) {
+		  $dataStr .= ' data-'.$key.'="'.$value.'"';
+	  }
 
-	foreach (['lang', 'long'] as $key) {
-		if (!empty($atts[$key])) {
-			$location .= ' data-'.$key.'="'.$atts[$key].'"';
-		}
-	}
-
-	return '<input type="button" class="ar_button" style="color:'.$ButtTextColor.'; background-color:'.$ButtColor.';" id="'.$atts['id'].'" value="'.$atts['name'].'"
-	   data-scale="'.$autoscale.'" data-rotation="'.$rotation.'" data-type="'.$type.'" '.$location.'/>';
+	  return '<input type="button" class="ar_button" style="'.$style.'" id="'.$atts['id'].'" value="'.$atts['name'].'"'.$dataStr.'/>';
   }
-
 } 
