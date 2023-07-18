@@ -1,17 +1,8 @@
-<?php if ('jpg' == $object_type_ext || 'png' == $object_type_ext) { ?>
-<a-nft type="nft" url="<?php echo $markerURL; ?>">
-    <a-image rotation="<?php echo $rotation; ?>"
-             autoscale="<?php echo $autoscale; ?>"
-             src="<?php echo $objectURL; ?>"></a-image>
-</a-nft>
-<?php } elseif ('gltf' == $object_type_ext) { ?>
-<a-nft type="nft" url="<?php echo $markerURL; ?>"
-       id="animated-marker">
-    <a-entity rotation="<?php echo $rotation; ?>"
-              autoscale="<?php echo $autoscale; ?>" position="0 0 0"
-              animation-mixer
-              gltf-model="#animated-asset<?php echo $objectId; ?>">
-    </a-entity>
-</a-nft>
-<?php } ?>
-<a-entity camera></a-entity>
+<a-scene vr-mode-ui='enabled: false;' renderer="logarithmicDepthBuffer: true; precision: medium;" embedded
+         arjs='trackingMethod: best; sourceType: webcam; debugUIEnabled: false;'>
+    <a-nft type='nft' url='<?php echo $markerURL; ?>' smooth='true'
+           smoothCount='10' smoothTolerance='0.01' smoothThreshold='5'>
+        <?php require_once 'show-object.php'; ?>
+    </a-nft>
+    <a-entity camera></a-entity>
+</a-scene>

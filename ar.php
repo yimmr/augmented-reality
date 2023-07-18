@@ -45,46 +45,36 @@ $html_object = json_encode($wpdb->get_results("SELECT objects FROM {$wpdb->prefi
 $html_object = json_decode($html_object, $assoc_array = true);
 $html_object = stripcslashes($html_object[0]['objects']);
 $html_object = json_decode(str_replace("'", '"', $html_object), true);
-?>
-<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1.3.0/dist/aframe-master.min.js"></script>
-<style>
-  .arjs-loader {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.8);
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 
-  .arjs-loader div {
-    text-align: center;
-    font-size: 1.25em;
-    color: white;
-  }
-</style>
-<!-- rawgithack development URL -->
-<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+$html_marker = ['examples/image-tracking/nft/trex/trex-image/trex'];
+$html_object = ['examples/image-tracking/nft/trex/scene.gltf'];
+
+$type = 1 == $_GET['art'] ? 'image' : (2 == $_GET['art'] ? 'location' : 'marker');
+
+$makerIdxs = array_keys($html_marker);
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Document</title>
+</head>
 
 <body style='margin : 0px; overflow: hidden;'>
-  <!-- minimal loader shown until image descriptors are loaded -->
-  <div class="arjs-loader">
-    <div>Loading, please wait...</div>
-  </div>
-  <a-scene vr-mode-ui='enabled: false;' renderer="logarithmicDepthBuffer: true; precision: medium;" embedded
-           arjs='trackingMethod: best; sourceType: webcam; debugUIEnabled: false;'>
-    <!-- use rawgithack to retrieve the correct url for nft marker (see 'trex' below) -->
-    <a-nft type='nft'
-           url='<?php echo PL_AR_LINK; ?>examples/image-tracking/nft/trex/trex-image/trex'
-           smooth='true' smoothCount='10' smoothTolerance='0.01' smoothThreshold='5'>
-      <a-entity gltf-model='<?php echo PL_AR_LINK; ?>file_manager/objects/nes_controller/scene.gltf'
-                scale="5 5 5" position="150 300 -100">
-      </a-entity>
-    </a-nft>
-    <a-entity camera></a-entity>
-  </a-scene>
+  <a-assets><?php array_map(function ($i) use ($html_object) {
+      if ('gltf' == pathinfo($html_object[$i], PATHINFO_EXTENSION)) {
+          printf('<a-asset-item id="animated-asset%s" src="%s"></a-asset-item>', $i, PL_AR_LINK.$html_object[$i]);
+      }
+  }, $makerIdxs); ?></a-assets>
+  <?php foreach ($makerIdxs as $objectId) {
+      $path_parts = pathinfo($html_object[$objectId]);
+      $object_type_ext = $path_parts['extension'];
+      $markerURL = PL_AR_LINK.$html_marker[$objectId];
+      $objectURL = PL_AR_LINK.$html_object[$objectId];
+      require_once 'views/'.$type.'.php';
+  } ?>
 </body>
+
+</html>
