@@ -1,13 +1,16 @@
-<?php /* Template Name: ar_template */ ?>
 <?php
+
+/* Template Name: ar_template */
+
+use MyWPAR\ARPage;
+
+require_once __DIR__.'/ARPage.php';
+
 add_action('wp_ajax_pl_ar_new_page', 'pl_ar_new_page');
 add_action('wp_ajax_nopriv_pl_ar_new_page', 'pl_ar_new_page');
 
-$id_selector = get_option('pl_ar_current_id');
-$autoscale = get_option('pl_ar_current_scale');
-$rotation = get_option('pl_ar_current_rotation');
-$type = get_option('pl_ar_current_type');
-$gpsLocation = get_option('pl_ar_current_gps_location');
+$arPage = new ARPage;
+$pageData = $arPage->getPageData(get_option('pl_ar_current_id'));
 
 $lang = $gpsLocation['lang'] ?? 0;
 $long = $gpsLocation['long'] ?? 0;
@@ -51,32 +54,3 @@ $html_object = stripcslashes($html_object[0]['objects']);
 $html_object = json_decode(str_replace("'", '"', $html_object), true);
 
 $makerIdxs = array_keys($html_marker);
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <?php wp_head(); ?>
-</head>
-
-<body style="margin : 0px; overflow: hidden;">
-    <a-scene embedded vr-mode-ui="enabled: false"
-             arjs="trackingMethod: best;sourceType: webcam; debugUIEnabled: true; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
-        <a-assets><?php array_map(function ($i) use ($html_object) {
-            if ('gltf' == pathinfo($html_object[$i], PATHINFO_EXTENSION)) {
-                printf('<a-asset-item id="animated-asset%s" src="%s"></a-asset-item>', $i, PL_AR_LINK.$html_object[$i]);
-            }
-        }, $makerIdxs); ?></a-assets>
-        <?php foreach ($makerIdxs as $objectId) {
-            $path_parts = pathinfo($html_object[$objectId]);
-            $object_type_ext = $path_parts['extension'];
-            $markerURL = PL_AR_LINK.$html_marker[$objectId];
-            $objectURL = PL_AR_LINK.$html_object[$objectId];
-            require_once 'views/'.$type.'.php';
-        } ?>
-    </a-scene>
-</body>
-
-</html>
