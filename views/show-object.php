@@ -13,7 +13,7 @@ foreach ($objectAttrs as $key => $value) {
          <?php echo $objectAttrStr; ?>></a-image>
 <?php } elseif ('gltf' == $object_type_ext) { ?>
 <a-entity rotation="<?php echo $rotation; ?>"
-          autoscale="<?php echo $autoscale; ?>" position="0 0 0"
+          scale="<?php echo $autoscale; ?>" position="0 0 0"
           animation-mixer
           gltf-model="#animated-asset<?php echo $objectId; ?>"
           <?php echo $objectAttrStr; ?>> </a-entity>

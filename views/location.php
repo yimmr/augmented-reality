@@ -6,10 +6,10 @@
     <?php require_once __DIR__.'/assets.php'; ?>
     <?php $objectAttrs = [
         'look-at'          => '[gps-camera]',
-        'gps-entity-place' => 'latitude: 30; longitude: 30;',
+        'gps-entity-place' => 'latitude: 51.0491; longitude: -0.723;',
     ]; ?>
     <?php require_once __DIR__.'/show-object.php'; ?>
-    <a-camera gps-camera="simulateLatitude:30; simulateLongitude:30;" rotation-reader></a-camera>
+    <a-camera gps-camera='simulateLatitude: 51.049; simulateLongitude: -0.723' rotation-reader></a-camera>
 </a-scene>
 <?php return; ?>
 <?php if ('jpg' == $object_type_ext || 'png' == $object_type_ext) { ?>
