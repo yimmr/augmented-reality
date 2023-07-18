@@ -50,12 +50,14 @@ class ARPage
         $markers = ['examples/image-tracking/nft/trex/trex-image/trex'];
         $objects = ['examples/image-tracking/nft/trex/scene.gltf'];
         $data['type'] = 1 == $_GET['art'] ? 'image' : (2 == $_GET['art'] ? 'location' : 'marker');
-        $data['slat'] = 51.049;
-        $data['slon'] = -0.723;
+        $attrs['lat'] = $data['slat'] = 51.049;
+        $attrs['lon'] = $data['slon'] = -0.723;
 
         if ('location' === $data['type']) {
+            $lat = $attrs['lat'] ?? 0;
+            $lon = $attrs['lon'] ?? 0;
             $attrs['look-at'] = $attrs['look-at'] ?? '[gps-camera]';
-            $attrs['gps-entity-place'] = "latitude: {$attrs['lat']}; longitude: {$attrs['lon']};";
+            $attrs['gps-entity-place'] = "latitude: {$lat}; longitude: {$lon};";
         }
 
         foreach ($markers as $key => $value) {
