@@ -8,6 +8,8 @@ $gpsLocation = get_option('pl_ar_current_gps_location');
 $lang = $gpsLocation['lang'] ?? 0;
 $long = $gpsLocation['long'] ?? 0;
 
+$type = 1 == $_GET['art'] ? 'image' : (2 == $_GET['art'] ? 'location' : 'marker');
+
 add_action('wp_enqueue_scripts', function () use ($type) {
     \wp_dequeue_script('aframe-ar');
     switch ($type) {
@@ -49,8 +51,6 @@ $html_object = json_decode(str_replace("'", '"', $html_object), true);
 $html_marker = ['examples/image-tracking/nft/trex/trex-image/trex'];
 $html_object = ['examples/image-tracking/nft/trex/scene.gltf'];
 
-$type = 1 == $_GET['art'] ? 'image' : (2 == $_GET['art'] ? 'location' : 'marker');
-
 $makerIdxs = array_keys($html_marker);
 
 ?>
@@ -61,7 +61,11 @@ $makerIdxs = array_keys($html_marker);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Document</title>
-    <?php wp_head(); ?>
+    <?php // wp_head();?>
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1.3.0/dist/aframe-master.min.js"></script>
+    <script
+            src="<?php echo PL_AR_LINK.'js/aframe-ar-nft.js'; ?>">
+    </script>
 </head>
 
 <body style='margin : 0px; overflow: hidden;'>
