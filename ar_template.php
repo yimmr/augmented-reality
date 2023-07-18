@@ -17,6 +17,7 @@ add_action('wp_ajax_nopriv_pl_ar_new_page', 'pl_ar_new_page');
 
 add_action('wp_enqueue_scripts', function () use ($type) {
     \wp_dequeue_script('aframe-ar');
+    \wp_dequeue_script('aframe_min');
     switch ($type) {
         case 'image':
             \wp_enqueue_script('aframe_min', PL_AR_LINK.'js/aframe-master.min.js'.[], '1.3.0');
@@ -45,7 +46,7 @@ add_action('wp_enqueue_scripts', function () use ($type) {
     <?php wp_head(); ?>
 </head>
 
-<body style='margin : 0px; overflow: hidden;'>
+<body style='margin: 0; overflow: hidden;'>
     <?php require_once 'views/'.$type.'.php'; ?>
 </body>
 
