@@ -57,24 +57,25 @@ $makerIdxs = array_keys($html_marker);
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Document</title>
+    <?php wp_head(); ?>
 </head>
 
 <body style='margin : 0px; overflow: hidden;'>
-  <a-assets><?php array_map(function ($i) use ($html_object) {
-      if ('gltf' == pathinfo($html_object[$i], PATHINFO_EXTENSION)) {
-          printf('<a-asset-item id="animated-asset%s" src="%s"></a-asset-item>', $i, PL_AR_LINK.$html_object[$i]);
-      }
-  }, $makerIdxs); ?></a-assets>
-  <?php foreach ($makerIdxs as $objectId) {
-      $path_parts = pathinfo($html_object[$objectId]);
-      $object_type_ext = $path_parts['extension'];
-      $markerURL = PL_AR_LINK.$html_marker[$objectId];
-      $objectURL = PL_AR_LINK.$html_object[$objectId];
-      require_once 'views/'.$type.'.php';
-  } ?>
+    <a-assets><?php array_map(function ($i) use ($html_object) {
+        if ('gltf' == pathinfo($html_object[$i], PATHINFO_EXTENSION)) {
+            printf('<a-asset-item id="animated-asset%s" src="%s"></a-asset-item>', $i, PL_AR_LINK.$html_object[$i]);
+        }
+    }, $makerIdxs); ?></a-assets>
+    <?php foreach ($makerIdxs as $objectId) {
+        $path_parts = pathinfo($html_object[$objectId]);
+        $object_type_ext = $path_parts['extension'];
+        $markerURL = PL_AR_LINK.$html_marker[$objectId];
+        $objectURL = PL_AR_LINK.$html_object[$objectId];
+        require_once 'views/'.$type.'.php';
+    } ?>
 </body>
 
 </html>
