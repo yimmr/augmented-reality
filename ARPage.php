@@ -74,10 +74,10 @@ class ARPage
             case 'jpg':
             case 'png':
                 $object = ['type' => 'image', 'src' => $objectURL];
-                if (isset($attrs['scale'])) {
-                    $object['autoscale'] = $attrs['scale'];
-                    unset($attrs['scale']);
-                }
+                // if (isset($attrs['scale'])) {
+                //     $object['autoscale'] = $attrs['scale'];
+                //     unset($attrs['scale']);
+                // }
                 break;
             case 'gltf':
                 $object = [
