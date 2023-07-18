@@ -12,7 +12,7 @@ add_action('wp_enqueue_scripts', function () use ($type) {
     \wp_dequeue_script('aframe-ar');
     switch ($type) {
         case 'image':
-            \wp_enqueue_script('aframe_min', PL_AR_LINK.'js/aframe-master.min.js'.[], '1.3.0');
+            \wp_enqueue_script('aframe_min', PL_AR_LINK.'js/aframe-master.min.js', [], '1.3.0');
             \wp_enqueue_script('aframe-ar-nft', PL_AR_LINK.'js/aframe-ar-nft.js');
             break;
         case 'location':
