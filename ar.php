@@ -12,6 +12,7 @@ $type = 1 == $_GET['art'] ? 'image' : (2 == $_GET['art'] ? 'location' : 'marker'
 
 add_action('wp_enqueue_scripts', function () use ($type) {
     \wp_dequeue_script('aframe-ar');
+    \wp_dequeue_script('aframe_min');
     switch ($type) {
         case 'image':
             \wp_enqueue_script('aframe_min', PL_AR_LINK.'js/aframe-master.min.js', [], '1.3.0');
@@ -60,8 +61,7 @@ $makerIdxs = array_keys($html_marker);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Document</title>
-    <?php // wp_head();?>
+    <?php wp_head(); ?>
 </head>
 
 <body style='margin : 0px; overflow: hidden;'>

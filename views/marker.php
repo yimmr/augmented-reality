@@ -1,6 +1,5 @@
-<script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-<!-- we import arjs version without NFT but with marker + location based support -->
-<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+<!-- <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script> -->
 <a-scene embedded arjs>
     <a-marker preset="hiro">
         <!-- we use cors proxy to avoid cross-origin problems ATTENTION! you need to set up your server -->
