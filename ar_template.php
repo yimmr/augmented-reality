@@ -20,8 +20,8 @@ add_action('wp_enqueue_scripts', function () use ($type) {
     \wp_dequeue_script('aframe_min');
     switch ($type) {
         case 'image':
-            // \wp_enqueue_script('aframe_min', PL_AR_LINK.'js/aframe-master.min.js', [], '1.3.0');
-            // \wp_enqueue_script('aframe-ar-nft', PL_AR_LINK.'js/aframe-ar-nft.js');
+            \wp_enqueue_script('aframe_min', PL_AR_LINK.'js/aframe-master.min.js', [], '1.3.0');
+            \wp_enqueue_script('aframe-ar-nft', PL_AR_LINK.'js/aframe-ar-nft.js');
             break;
         case 'location':
             \wp_enqueue_script('aframe_min', PL_AR_LINK.'js/aframe.min.js', [], '1.3.0');
@@ -46,8 +46,6 @@ add_action('wp_enqueue_scripts', function () use ($type) {
 <head>
     <meta charset="UTF-8">
     <?php wp_head(); ?>
-    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1.3.0/dist/aframe-master.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <style>
         .arjs-loader {
