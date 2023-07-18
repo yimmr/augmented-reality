@@ -1,7 +1,8 @@
 <!-- <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
 <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
 <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script> -->
-<a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false;">
+<a-scene embedded vr-mode-ui="enabled: false"
+         arjs="trackingMethod: best;sourceType: webcam; debugUIEnabled: true; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
     <?php require_once __DIR__.'/assets.php'; ?>
     <?php $objectAttrs = [
         'look-at'          => '[gps-camera]',
