@@ -52,6 +52,7 @@ $html_object = ['examples/image-tracking/nft/trex/scene.gltf'];
 $type = 1 == $_GET['art'] ? 'image' : (2 == $_GET['art'] ? 'location' : 'marker');
 
 $makerIdxs = array_keys($html_marker);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
