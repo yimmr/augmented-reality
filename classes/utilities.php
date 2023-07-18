@@ -218,13 +218,13 @@ class pl_ar_Utilities  {
             wp_enqueue_media();
         }
         //scripts for ar page only
-        $page = get_page_by_title('AR_page');
-        if ( $page->ID == get_the_ID() ){
-          wp_enqueue_script( 'aframe_min', PL_AR_LINK.'js/aframe-master.js' );
-          wp_enqueue_script( 'aframe-ar', PL_AR_LINK.'js/aframe-ar.js' );
-          wp_enqueue_script( 'aframe-extras', PL_AR_LINK.'js/aframe-extras.loaders.min.js' );
-          wp_enqueue_script( 'aframe-resize', PL_AR_LINK.'js/resize.js' );
-        }
+        // $page = get_page_by_title('AR_page');
+        // if ( $page->ID == get_the_ID() ){
+        //   wp_enqueue_script( 'aframe_min', PL_AR_LINK.'js/aframe-master.js' );
+        //   wp_enqueue_script( 'aframe-ar', PL_AR_LINK.'js/aframe-ar.js' );
+        //   wp_enqueue_script( 'aframe-extras', PL_AR_LINK.'js/aframe-extras.loaders.min.js' );
+        //   wp_enqueue_script( 'aframe-resize', PL_AR_LINK.'js/resize.js' );
+        // }
 
         //js scripts
         wp_enqueue_script( 'main_script', PL_AR_LINK.'/js/script.js', array('jquery') );
