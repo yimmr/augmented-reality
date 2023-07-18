@@ -105,7 +105,13 @@ class ARPage
         }
 
         $object = array_merge($object, $attrs);
-        $marker = ['url' => \PL_AR_LINK.$makerURL, 'type' => 'pattern'];
+        $makerExt = pathinfo($makerURL, PATHINFO_EXTENSION);
+
+        if ('image' == $type) {
+            $makerURL = pathinfo($makerURL, PATHINFO_BASENAME);
+        }
+
+        $marker = ['url' => \PL_AR_LINK.$makerURL, 'type' => 'patt' == $makerExt ? 'pattern' : ''];
 
         return compact('marker', 'object');
     }

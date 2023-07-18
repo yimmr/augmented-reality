@@ -52,7 +52,7 @@
     	var pl_ar_div =  '<div id="pl_wp_container" style="position:absolute;top:'+e.pageY+'px;left:'+e.pageX+'px;"></div>';
     	$( pl_ar_div ).appendTo( "body" );//need to be sure that wpwrap exists
 
-      getfilelist( $('#pl_wp_container') , 'file_manager/markers' );
+      getfilelist( $('#pl_wp_container') , 'file_manager' );
     	$( '#pl_wp_container' ).on('click', 'LI A', function() { /* monitor the click event on links */
 		    var entry = $(this).parent(); /* get the parent element of the link */
 		    if( entry.hasClass('folder') ) { /* check if it has folder as class name */
