@@ -6,7 +6,7 @@ add_filter('pl_wpar_page_current_data', function ($data) {
     $data['type'] = 1 == $_GET['art'] ? 'image' : (2 == $_GET['art'] ? 'location' : 'marker');
 
     if ('location' == $data['type']) {
-        $data['lonlat'] = $data['slonlat'] = '-0.723,51.049';
+        $data['latlong'] = $data['slatlong'] = '-0.723,51.049';
     }
 
     return $data;

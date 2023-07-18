@@ -45,13 +45,13 @@ class ARPage
             $objects = ['examples/image-tracking/nft/trex/scene.gltf'];
             $attrs['type'] = 1 == $_GET['art'] ? 'image' : (2 == $_GET['art'] ? 'location' : 'marker');
             if ('location' == $attrs['type']) {
-                $attrs['lonlat'] = $attrs['slonlat'] = '-0.723,51.049';
+                $attrs['latlong'] = $attrs['slatlong'] = '-0.723,51.049';
             }
         }
         // 提取公共属性
-        foreach (['type', 'slonlat'] as $key) {
+        foreach (['type', 'slatlong'] as $key) {
             if (isset($attrs[$key])) {
-                $data[$key] = 'slonlat' === $key ? $this->parseLonLat($attrs[$key]) : $attrs[$key];
+                $data[$key] = 'slatlong' === $key ? $this->parseLatLong($attrs[$key]) : $attrs[$key];
                 unset($attrs[$key]);
             }
         }
@@ -98,17 +98,17 @@ class ARPage
             default:break;
         }
 
-        if (isset($attrs['lonlat'])) {
-            $lonlat = $this->parseLonLat($attrs['lonlat']);
-            $attrs['gps-entity-place'] = "longitude: {$lonlat[0]}; latitude: {$lonlat[1]};";
-            unset($attrs['lonlat']);
+        if (isset($attrs['latlong'])) {
+            $latlong = $this->parseLatLong($attrs['latlong']);
+            $attrs['gps-entity-place'] = "longitude: {$latlong[0]}; latitude: {$latlong[1]};";
+            unset($attrs['latlong']);
         }
 
         $object = array_merge($object, $attrs);
         $makerExt = pathinfo($makerURL, PATHINFO_EXTENSION);
 
         if ('image' == $type) {
-            $makerURL = pathinfo($makerURL, PATHINFO_BASENAME);
+            $makerURL = substr($makerURL, 0, strrpos($makerURL, '.'));
         }
 
         $marker = ['url' => \PL_AR_LINK.$makerURL, 'type' => 'patt' == $makerExt ? 'pattern' : ''];
@@ -116,7 +116,7 @@ class ARPage
         return compact('marker', 'object');
     }
 
-    protected function parseLonLat($string)
+    protected function parseLatLong($string)
     {
         return explode(',', $string) + [0, 0];
     }
