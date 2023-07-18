@@ -76,7 +76,7 @@ class ARPage
         $data['items'] = $items;
         $data['preload'] = $preload;
 
-        dump($data);
+        // dump($data);
 
         return $data;
     }
